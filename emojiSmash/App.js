@@ -8,26 +8,29 @@ import CircleButton from './components/CircleButton';
 import IconButton from './components/IconButton';
 import EmojiPicker from "./components/EmojiPicker";
 import EmojiList from './components/EmojiList';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import EmojiSticker from './components/EmojiSticker';
 
 
 const PlaceholderImage = require("./assets/images/background-image.png");
 
-const onReset = () => {
-  setShowAppOptions(false);
-};
-
-const onAddSticker = () => {
-  setIsModalVisible(true);
-};
-const onModalClose = () => {
-  setIsModalVisible(false);
-};
-
 export default function App() {
+
+  const onReset = () => {
+    setShowAppOptions(false);
+  };
+  
+  const onAddSticker = () => {
+    setIsModalVisible(true);
+  };
+  const onModalClose = () => {
+    setIsModalVisible(false);
+  };
 
 const [isModalVisible, setIsModalVisible] = useState(false);
 const [selectedImage, setSelectedImage] = useState(null);
 const [showAppOptions, setShowAppOptions] = useState(false);
+const [pickedEmoji, setPickedEmoji] = useState(null);
 
 const pickImageAsync = async () => {
   let result = await ImagePicker.launchImageLibraryAsync({
@@ -46,10 +49,8 @@ const pickImageAsync = async () => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <ImageViewer
-          placeholderImageSource={PlaceholderImage}
-          selectedImage={selectedImage}
-        />
+      <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} />
+        {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />}
       </View>
       {showAppOptions ? (
     <View style={styles.optionsContainer}>
@@ -68,8 +69,8 @@ const pickImageAsync = async () => {
 }
 
 <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
-  {/* A lista com Emojis será inserida aqui */}
-</EmojiPicker>
+        <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
+      </EmojiPicker>
 
       <StatusBar style="auto"/>
     </View>
