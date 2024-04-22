@@ -7,6 +7,7 @@ import { useState } from 'react';
 import CircleButton from './components/CircleButton';
 import IconButton from './components/IconButton';
 import EmojiPicker from "./components/EmojiPicker";
+import EmojiList from './components/EmojiList';
 
 
 const PlaceholderImage = require("./assets/images/background-image.png");
@@ -54,7 +55,7 @@ const pickImageAsync = async () => {
     <View style={styles.optionsContainer}>
       <View style={styles.optionsRow}>
       <IconButton icon="refresh" label="Reset" onPress={onReset} />
-        <CircleButton/>
+      <CircleButton onPress={onAddSticker} />
         <IconButton icon="save-alt" label="Save" />
       </View>
     </View>
